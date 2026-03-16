@@ -1,0 +1,248 @@
+@import "tailwindcss";
+
+:root {
+  --ocean-900: #020d1a;
+  --ocean-800: #051628;
+  --ocean-700: #0a1f3d;
+  --ocean-600: #0d3b6e;
+  --teal-600: #0f7c7c;
+  --teal-400: #14b8a6;
+  --seafoam-400: #3dd6c3;
+  --seafoam-300: #7ee8d8;
+  --wave-glow: rgba(61, 214, 195, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--ocean-900);
+  color: #e2f4f4;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* ─── Animated Wave Background ─────────────────────────── */
+.wave-bg {
+  background: linear-gradient(135deg, #020d1a 0%, #051628 30%, #0a1f3d 60%, #0d3b6e 100%);
+  position: relative;
+  overflow: hidden;
+}
+.wave-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(61, 214, 195, 0.08) 0%, transparent 60%);
+  animation: slowPulse 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes slowPulse {
+  0% { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.1) translateY(-5%); }
+}
+
+/* ─── Glassmorphism Card ────────────────────────────────── */
+.glass-card {
+  background: rgba(13, 59, 110, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(61, 214, 195, 0.2);
+  border-radius: 16px;
+}
+
+.glass-card-dark {
+  background: rgba(5, 22, 40, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(61, 214, 195, 0.15);
+  border-radius: 16px;
+}
+
+/* ─── Seafoam Glow Effects ──────────────────────────────── */
+.glow-seafoam {
+  box-shadow: 0 0 20px rgba(61, 214, 195, 0.25), 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.glow-seafoam:hover {
+  box-shadow: 0 0 32px rgba(61, 214, 195, 0.45), 0 8px 24px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* ─── Gradient Text ─────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #7ee8d8 0%, #3dd6c3 50%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Primary Button ────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #0f7c7c, #3dd6c3);
+  color: #020d1a;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #3dd6c3, #7ee8d8);
+  box-shadow: 0 0 24px rgba(61, 214, 195, 0.5);
+  transform: translateY(-2px);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Secondary Button ──────────────────────────────────── */
+.btn-secondary {
+  background: rgba(61, 214, 195, 0.1);
+  color: #3dd6c3;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(61, 214, 195, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-secondary:hover {
+  background: rgba(61, 214, 195, 0.2);
+  border-color: rgba(61, 214, 195, 0.6);
+}
+
+/* ─── Table Styles ──────────────────────────────────────── */
+.ocean-table th {
+  background: rgba(15, 124, 124, 0.2);
+  color: #7ee8d8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.ocean-table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid rgba(61, 214, 195, 0.1);
+  color: #c7e8e8;
+  font-size: 0.875rem;
+}
+.ocean-table tr:hover td {
+  background: rgba(61, 214, 195, 0.05);
+}
+
+/* ─── Form Inputs ───────────────────────────────────────── */
+.ocean-input {
+  background: rgba(5, 22, 40, 0.8);
+  border: 1px solid rgba(61, 214, 195, 0.25);
+  border-radius: 10px;
+  color: #e2f4f4;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+.ocean-input:focus {
+  border-color: #3dd6c3;
+  box-shadow: 0 0 12px rgba(61, 214, 195, 0.2);
+}
+.ocean-input::placeholder {
+  color: rgba(126, 232, 216, 0.4);
+}
+
+/* ─── Status Badges ─────────────────────────────────────── */
+.badge-active { color: #4ade80; background: rgba(74, 222, 128, 0.12); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 20px; padding: 2px 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-warning { color: #fbbf24; background: rgba(251, 191, 36, 0.12); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 20px; padding: 2px 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-danger { color: #f87171; background: rgba(248, 113, 113, 0.12); border: 1px solid rgba(248, 113, 113, 0.3); border-radius: 20px; padding: 2px 10px; font-size: 0.75rem; font-weight: 600; }
+.badge-info { color: #60a5fa; background: rgba(96, 165, 250, 0.12); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 20px; padding: 2px 10px; font-size: 0.75rem; font-weight: 600; }
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(5, 22, 40, 0.8); }
+::-webkit-scrollbar-thumb { background: rgba(61, 214, 195, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(61, 214, 195, 0.6); }
+
+/* ─── Section Divider ───────────────────────────────────── */
+.ocean-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(61, 214, 195, 0.3), transparent);
+  margin: 1.5rem 0;
+}
+
+/* ─── Stat Card ─────────────────────────────────────────── */
+.stat-card {
+  background: rgba(13, 59, 110, 0.3);
+  border: 1px solid rgba(61, 214, 195, 0.15);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+.stat-card:hover {
+  border-color: rgba(61, 214, 195, 0.4);
+  box-shadow: 0 4px 20px rgba(61, 214, 195, 0.1);
+}
+
+/* ─── Alert Boxes ───────────────────────────────────────── */
+.alert-red {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 12px;
+  color: #fca5a5;
+  animation: pulseRed 2s ease-in-out infinite;
+}
+@keyframes pulseRed {
+  0%, 100% { border-color: rgba(239, 68, 68, 0.4); }
+  50% { border-color: rgba(239, 68, 68, 0.8); }
+}
+
+/* ─── Floating Animation ────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+.float-anim { animation: float 4s ease-in-out infinite; }
+
+/* ─── Tab Styles ────────────────────────────────────────── */
+.tab-active {
+  background: linear-gradient(135deg, rgba(15, 124, 124, 0.4), rgba(61, 214, 195, 0.15));
+  border-bottom: 2px solid #3dd6c3;
+  color: #3dd6c3;
+}
+.tab-inactive {
+  color: rgba(126, 232, 216, 0.5);
+  border-bottom: 2px solid transparent;
+}
+.tab-inactive:hover {
+  color: rgba(126, 232, 216, 0.8);
+  background: rgba(61, 214, 195, 0.05);
+}
+
+/* ─── Chat Bubbles ──────────────────────────────────────── */
+.chat-user {
+  background: rgba(13, 59, 110, 0.6);
+  border: 1px solid rgba(61, 214, 195, 0.2);
+  border-radius: 16px 16px 4px 16px;
+  padding: 0.75rem 1rem;
+  max-width: 80%;
+  align-self: flex-end;
+}
+.chat-matsya {
+  background: rgba(15, 124, 124, 0.2);
+  border: 1px solid rgba(61, 214, 195, 0.3);
+  border-radius: 16px 16px 16px 4px;
+  padding: 0.75rem 1rem;
+  max-width: 85%;
+  align-self: flex-start;
+}

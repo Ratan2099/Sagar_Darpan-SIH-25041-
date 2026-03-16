@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  RESEARCHER
+  FISHERMAN
+  GENERAL
+}
+
+enum SensorStatus {
+  ACTIVE
+  MAINTENANCE
+  OFFLINE
+}
+
+enum ModificationType {
+  UPDATE
+  DELETE
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  fullName     String
+  role         Role     @default(GENERAL)
+  createdAt    DateTime @default(now())
+
+  biodiversityRecords    BiodiversityRecord[]
+  chatbotInteractions    ChatbotInteraction[]
+  requestsMade           DataModificationRequest[] @relation("ResearcherRequests")
+  requestsResolved       DataModificationRequest[] @relation("AdminResolutions")
+}
+
+model IoTSensor {
+  id             String       @id @default(cuid())
+  sensorName     String
+  latitude       Float
+  longitude      Float
+  deploymentDate DateTime
+  status         SensorStatus @default(ACTIVE)
+
+  readings SensorReading[]
+}
+
+/// Time-series sensor data - structured for high-frequency IoT ingestion
+model SensorReading {
+  id              String    @id @default(cuid())
+  sensorId        String
+  timestamp       DateTime  @default(now())
+  temperature     Float
+  salinity        Float
+  pH_level        Float
+  dissolvedOxygen Float
+  depth           Float
+
+  sensor IoTSensor @relation(fields: [sensorId], references: [id], onDelete: Cascade)
+
+  @@index([sensorId, timestamp])
+  @@index([timestamp])
+}
+
+model BiodiversityRecord {
+  id                    String   @id @default(cuid())
+  researcherId          String
+  speciesName           String
+  molecularDataSequence Json
+  observationLat        Float
+  observationLon        Float
+  dateRecorded          DateTime
+  isApproved            Boolean  @default(false)
+
+  researcher User @relation(fields: [researcherId], references: [id])
+}
+
+model ChatbotInteraction {
+  id               String   @id @default(cuid())
+  fishermanId      String
+  timestamp        DateTime @default(now())
+  userMessage      String
+  imageUrl         String?
+  matsyaResponse   String
+  identifiedSpecies String?
+  marketValue      Float?
+
+  fisherman User @relation(fields: [fishermanId], references: [id])
+}
+
+model DataModificationRequest {
+  id               String           @id @default(cuid())
+  researcherId     String
+  targetRecordId   String
+  modificationType ModificationType
+  requestReason    String
+  status           RequestStatus    @default(PENDING)
+  resolvedByAdminId String?
+  createdAt        DateTime         @default(now())
+  resolvedAt       DateTime?
+
+  researcher    User  @relation("ResearcherRequests", fields: [researcherId], references: [id])
+  resolvedByAdmin User? @relation("AdminResolutions", fields: [resolvedByAdminId], references: [id])
+}
